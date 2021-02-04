@@ -74,10 +74,6 @@ class LLVM_IntBase<int width> :
         "::mlir::IntegerType::get($_builder.getContext(), "
         # width # ")">;
 
-def LLVM_i1 : LLVM_IntBase<1>;
-def LLVM_i8 : LLVM_IntBase<8>;
-def LLVM_i32 : LLVM_IntBase<32>;
-
 // Type constraint accepting LLVM primitive types, i.e. all types except void
 // and function.
 def LLVM_PrimitiveType : Type<
