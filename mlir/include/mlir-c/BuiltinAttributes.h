@@ -546,7 +546,7 @@ MLIR_CAPI_EXPORTED bool mlirAttributeIsAStridedLayout(MlirAttribute attr);
 MLIR_CAPI_EXPORTED MlirAttribute mlirStridedLayoutAttrGet(MlirContext ctx,
                                                           int64_t offset,
                                                           intptr_t numStrides,
-                                                          int64_t *strides);
+                                                          const int64_t *strides);
 
 // Returns the offset in the given strided layout layout attribute.
 MLIR_CAPI_EXPORTED int64_t mlirStridedLayoutAttrGetOffset(MlirAttribute attr);

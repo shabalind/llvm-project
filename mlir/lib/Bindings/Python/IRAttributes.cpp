@@ -1031,6 +1031,28 @@ public:
   }
 };
 
+/// Strided layout attribute subclass.
+class PyStridedLayoutAttribute : public PyConcreteAttribute<PyStridedLayoutAttribute> {
+public:
+  static constexpr IsAFunctionTy isaFunction = mlirAttributeIsAStridedLayout;
+  static constexpr const char *pyClassName = "StridedLayoutAttr";
+  using PyConcreteAttribute::PyConcreteAttribute;
+
+  static void bindDerived(ClassTy &c) {
+    c.def_static(
+        "get",
+        [](int64_t offset, const std::vector<int64_t> strides, DefaultingPyMlirContext ctx) {
+           MlirAttribute attr =
+             mlirStridedLayoutAttrGet(ctx->get(), offset, strides.size(), strides.data());
+           return PyStridedLayoutAttribute(ctx->getRef(), attr);
+        },
+        py::arg("offset"),
+        py::arg("strides"),
+        py::arg("context") = py::none(), 
+        "Gets a strided layout attribute.");
+  }
+};
+
 } // namespace
 
 void mlir::python::populateIRAttributes(py::module &m) {
@@ -1065,4 +1087,6 @@ void mlir::python::populateIRAttributes(py::module &m) {
   PyStringAttribute::bind(m);
   PyTypeAttribute::bind(m);
   PyUnitAttribute::bind(m);
+
+  PyStridedLayoutAttribute::bind(m);
 }
